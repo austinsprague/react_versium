@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import List from './List.js'
-
+import Spinner from './Spinner.js'
 
 class Home extends Component {
   constructor(props){
@@ -9,18 +9,27 @@ class Home extends Component {
     this.state = {
       firstname: '',
       lastname: '',
-      state: ''
+      state: '',
+      results:[],
+      loading:false
     }
   }
 
-  handleChange(event) {
+  handleChange=(event)=> {
     var obj = {};
-    obj[event.name] = event.target.value;
+    obj[event.target.name] = event.target.value;
     this.setState(obj);
   }
 
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+  handleSubmit=(event)=> {
+    this.setState({loading:true});
+
+    fetch('/api/getList')
+    .then(res => res.json())
+    .then(list=>{
+      this.setState({loading:false});
+      this.setState({results: <List items={list}></List>});
+    });
     event.preventDefault();
   }
 
@@ -52,7 +61,19 @@ class Home extends Component {
             My List
         </button>
       </Link> */}
-      <List></List>
+      <p>{this.state.loading.toString()}</p>
+      <div>
+        {this.state.loading ? (
+          <div>
+            <Spinner></Spinner>
+          </div>
+        ) : (
+          <div>
+            {this.state.results}
+          </div>
+          )
+        }
+      </div>
     </div>
     );
   }
