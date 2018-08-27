@@ -4,9 +4,6 @@ import Oval from 'react-preloader-icon/loaders/Oval';
 
 
 class Spinner extends Component {
-  constructor(props){
-    super(props)
-  }
   render() {
     return(
       <PreloaderIcon

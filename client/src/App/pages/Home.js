@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import List from './List.js'
+import List from './List.js';
+import Item from './Item.js'
 import Spinner from './Spinner.js'
 
 class Home extends Component {
@@ -11,7 +11,8 @@ class Home extends Component {
       lastname: '',
       state: '',
       results:[],
-      loading:false
+      loading:false,
+      hasSearched: false
     }
   }
 
@@ -22,22 +23,27 @@ class Home extends Component {
   }
 
   handleSubmit=(event)=> {
-    this.setState({loading:true});
+    this.setState({loading:true, hasSearched: false});
 
     fetch('/api/getList')
     .then(res => res.json())
     .then(list=>{
-      this.setState({loading:false});
-      this.setState({results: <List items={list}></List>});
+      console.log('LIST', list);
+      this.setState({loading:false, results: list, hasSearched: true});
     });
     event.preventDefault();
   }
 
   render() {
+    let {results, loading, hasSearched} = this.state;
+    let loadingSpinner = loading ? <Spinner></Spinner> : null;
+    let renderListEmpty = (!results.length && !loading && hasSearched)?  <h2>No List Items Found</h2> : null;
+    let itemComponents = (!loading && results.length )? results.map((data,idx)=>{
+      return <Item data={data} key={idx} index={idx}></Item> }) : null;
+
     return (
     <div className="App">
       <h1>Welcome to Versium People Search</h1>
-
       <form onSubmit={this.handleSubmit}>
         <label>
           FirstName:
@@ -54,26 +60,12 @@ class Home extends Component {
         <input type="submit" value="Submit" />
       </form>
 
-
-      {/* Link to List.js */}
-      {/* <Link to={'./list'}>
-        <button variant="raised">
-            My List
-        </button>
-      </Link> */}
-      <p>{this.state.loading.toString()}</p>
       <div>
-        {this.state.loading ? (
-          <div>
-            <Spinner></Spinner>
-          </div>
-        ) : (
-          <div>
-            {this.state.results}
-          </div>
-          )
-        }
+        {loadingSpinner}
+        {itemComponents}
+        {renderListEmpty}
       </div>
+      
     </div>
     );
   }
