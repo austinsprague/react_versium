@@ -10,9 +10,11 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 // An api endpoint that returns a short list of items
 
-app.get('/api/getList', (req,res) => {
+app.get('/api/getList/:first/:last/:state', (req,res) => {
+  const params = req.params;
+
   return new Promise(function(resolve, reject){
-    request('https://api.datafinder.com/qdf.php?service=phone&k2=9abbxna7d2b65ivia3p9vljs&cfg_maxrecs=100&d_first=elon&d_last=musk&d_state=la&output=json', function (error, response, body) {
+    request('https://api.datafinder.com/qdf.php?service=phone&k2=9abbxna7d2b65ivia3p9vljs&cfg_maxrecs=100&d_first=+ ' + params.first + '&d_last=' + params.last + '&d_state=' + params.state + '&output=json', function (error, response, body) {
       console.log('error:', error); // Print the error if one occurred
       console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
       let json = JSON.parse(body);
@@ -26,6 +28,7 @@ app.get('/api/getList', (req,res) => {
         let obj = {
           FirstName: res[i].FirstName || '',
           LastName: res[i].LastName || '',
+          Address: res[i].Address || '',
           City: res[i].City || '',
           State: res[i].State || ''
         };

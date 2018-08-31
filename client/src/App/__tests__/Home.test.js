@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Home from '../pages/Home';
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 
 
 it('renders without crashing', () => {
@@ -18,12 +18,13 @@ describe("Home", () => {
     if (!mountedHomeScreen) {
       mountedHomeScreen = mount(
         <Home {...props} />
-      );
+      )
     }
     return mountedHomeScreen;
   }
 
   beforeEach(() => {
+
     props = {
       firstname: '',
       lastname: '',
@@ -31,7 +32,7 @@ describe("Home", () => {
       results:[],
       loading:false,
       hasSearched: false
-    };
+    }
   });
 
   it("always renders a div", () => {
@@ -50,26 +51,9 @@ describe("Home", () => {
   });
 
   it("renders spinner when loading", () =>{
-
     const spinner = home().find("spinner");
     expect(spinner.length).toEqual(0);
     expect(props.loading).toEqual(false);
     expect(props.hasSearched).toEqual(false);
   });
-
-
-
 });
-
-
-
-// test('CheckboxWithLabel changes the text after click', () => {
-//   // Render a checkbox with label in the document
-//   const checkbox = shallow(<CheckboxWithLabel labelOn="On" labelOff="Off" />);
-//
-//   expect(checkbox.text()).toEqual('Off');
-//
-//   checkbox.find('input').simulate('change');
-//
-//   expect(checkbox.text()).toEqual('On');
-// });

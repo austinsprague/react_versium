@@ -1,31 +1,71 @@
-.App {
+.maincon {
+  margin: 30px 80px 30px 80px;
+}
+
+.title{
   text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
   font-size: 1.5em;
+  padding: 30px;
+}
+.searchForm{
+  display:flex;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.App-intro {
-  font-size: large;
+form {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-.Item {
-  border: 1px solid #000;
+.content-child {
+  border: 1px solid #ddd;
   padding: 0 5px;
 }
+
+.spinner{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
+}
+
+form input {
+  font-size: 18px;
+  padding: 5px 0px;
+  margin: 10px 5px 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+
+}
+
+form input.error {
+  border-color: red;
+}
+
+form .button {
+  border-radius: 5px;
+  background-color: #84c00c;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  width:120px;
+  outline: none;
+}
+
+form .button:hover {
+  background-color: #669509;
+}
+
+form .button:disabled {
+  background-color: #dbf99f;
+  color: #333;
+}
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

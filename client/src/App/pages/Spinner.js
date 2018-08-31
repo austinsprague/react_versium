@@ -5,14 +5,15 @@ import Oval from 'react-preloader-icon/loaders/Oval';
 
 class Spinner extends Component {
   render() {
+    let loading = this.props.isLoading;
     return(
-      <PreloaderIcon
-        loader={Oval}
-        size={150}
-        strokeWidth={2}
-        strokeColor="#006064"
-        duration={400}
-      />
+      <div className="spinner">
+        {
+          loading ?
+          <PreloaderIcon loader={Oval} size={150} strokeWidth={2} strokeColor="#006064" duration={400}/>
+          : null
+        }
+      </div>
     )
   }
 }
