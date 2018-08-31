@@ -24,10 +24,10 @@ app.get('/api/getList', (req,res) => {
       let arr1 = [];
       for(let i = 0; i< res.length; i++){
         let obj = {
-          FirstName: res[i].FirstName,
-          LastName: res[i].LastName,
-          City: res[i].City,
-          State: res[i].State
+          FirstName: res[i].FirstName || '',
+          LastName: res[i].LastName || '',
+          City: res[i].City || '',
+          State: res[i].State || ''
         };
         arr1.push(obj);
       }

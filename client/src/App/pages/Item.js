@@ -9,11 +9,11 @@ class Item extends Component {
 
   render() {
     let {data, index} = this.state;
-    index = parseInt(index) + 1;
+    const resultNum = parseInt(index) + 1;
 
     return (
-      <div>
-        <h5>Result #{index}</h5>
+      <div className="Item">
+        <h5>Result #{resultNum}</h5>
         <p>FirstName: {data.FirstName}</p>
         <p>LastName: {data.LastName}</p>
         <p>Address: {data.Address}</p>

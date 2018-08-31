@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import List from './List.js';
 import Item from './Item.js'
 import Spinner from './Spinner.js'
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+configure({ adapter: new Adapter() });
 
 class Home extends Component {
   constructor(props){
@@ -28,7 +30,6 @@ class Home extends Component {
     fetch('/api/getList')
     .then(res => res.json())
     .then(list=>{
-      console.log('LIST', list);
       this.setState({loading:false, results: list, hasSearched: true});
     });
     event.preventDefault();
@@ -36,37 +37,39 @@ class Home extends Component {
 
   render() {
     let {results, loading, hasSearched} = this.state;
-    let loadingSpinner = loading ? <Spinner></Spinner> : null;
-    let renderListEmpty = (!results.length && !loading && hasSearched)?  <h2>No List Items Found</h2> : null;
+    let loadingSpinner = loading ? <Spinner className="spinner"></Spinner> : null;
+    let renderListEmpty = (!results.length && !loading && hasSearched)?  <h3>No List Items Found</h3> : null;
     let itemComponents = (!loading && results.length )? results.map((data,idx)=>{
       return <Item data={data} key={idx} index={idx}></Item> }) : null;
 
     return (
-    <div className="App">
-      <h1>Welcome to Versium People Search</h1>
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          FirstName:
-          <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleChange}/>
-        </label>
-        <label>
-          LastName
-          <input type="text" name="lastname" value={this.state.lastname} onChange={this.handleChange}/>
-        </label>
-        <label>
-          State
-          <input type="text" name="state" value={this.state.state} onChange={this.handleChange}/>
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div className="App">
+        <h1 className="title">Welcome to Versium People Search</h1>
+        <div className="searchform">
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              FirstName:
+              <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleChange}/>
+            </label>
+            <label>
+              LastName
+              <input type="text" name="lastname" value={this.state.lastname} onChange={this.handleChange}/>
+            </label>
+            <label>
+              State
+              <input type="text" name="state" value={this.state.state} onChange={this.handleChange}/>
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+        <div className="display">
+          {loadingSpinner}
+          {itemComponents}
+          {renderListEmpty}
+        </div>
 
-      <div>
-        {loadingSpinner}
-        {itemComponents}
-        {renderListEmpty}
       </div>
-      
-    </div>
+
     );
   }
 }
